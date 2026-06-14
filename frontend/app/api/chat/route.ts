@@ -1,0 +1,96 @@
+import { groq } from "@ai-sdk/groq";
+import { jsonSchema, streamText, tool, type ToolSet } from "ai";
+import { fetchAllTools, invokeTool } from "@/lib/tool-router";
+import type { MCPToolDefinition } from "@/lib/types";
+
+export const maxDuration = 60;
+
+const SYSTEM_PROMPT = `You are the AI assistant for a university Campus Intelligence Dashboard.
+You have access to tools from independent campus systems: library catalog,
+cafeteria menu, club events calendar, and (if available) the academic handbook.
+
+Rules:
+- For any question that could be answered by a tool, call the relevant tool(s)
+  rather than guessing or using prior knowledge.
+- If a question could plausibly involve multiple systems (e.g. "what's
+  happening on campus today" could mean events AND food), call all relevant
+  tools in the same turn.
+- If a tool returns an error or a campus system is unavailable, tell the user
+  plainly which part of their request you could not fulfill, and still answer
+  the parts you could. Never pretend a service is working when it returned an error.
+- If a tool returns no results (e.g. no books found, no events on that date),
+  say so directly. Never invent books, menu items, events, or policies that
+  were not returned by a tool.
+- Keep responses concise and conversational. Do not describe your internal
+  tool-calling process to the user.`;
+
+function buildAiTools(
+  mcpTools: MCPToolDefinition[],
+  toolOwners: Awaited<ReturnType<typeof fetchAllTools>>["toolOwners"]
+) {
+  const tools: ToolSet = {};
+
+  for (const toolDef of mcpTools) {
+    tools[toolDef.name] = tool({
+      description: toolDef.description,
+      parameters: jsonSchema(toolDef.input_schema),
+      execute: async (input) => {
+        const { result, error } = await invokeTool(
+          toolDef.name,
+          input as Record<string, unknown>,
+          toolOwners
+        );
+        if (error) {
+          return { error, result: null };
+        }
+        return result;
+      },
+    });
+  }
+
+  return tools;
+}
+
+export async function POST(req: Request) {
+  try {
+    const { messages } = await req.json();
+
+    if (!process.env.GROQ_API_KEY) {
+      return new Response(
+        JSON.stringify({ error: "GROQ_API_KEY is not configured." }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const { tools: mcpTools, toolOwners, unavailableServers } =
+      await fetchAllTools();
+
+    let systemPrompt = SYSTEM_PROMPT;
+    if (unavailableServers.length > 0) {
+      systemPrompt += `\n\nNote: The following campus systems are currently unavailable: ${unavailableServers.join(", ")}. If the user asks about them, explain you cannot reach those systems right now.`;
+    }
+
+    if (mcpTools.length === 0) {
+      systemPrompt +=
+        "\n\nWarning: No campus tools are available right now. Tell the user the library system appears to be offline.";
+    }
+
+    const aiTools = buildAiTools(mcpTools, toolOwners);
+
+    const result = streamText({
+      model: groq("llama-3.3-70b-versatile"),
+      system: systemPrompt,
+      messages,
+      tools: aiTools,
+      maxSteps: 5,
+    });
+
+    return result.toDataStreamResponse();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}

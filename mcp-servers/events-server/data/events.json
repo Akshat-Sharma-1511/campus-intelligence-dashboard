@@ -1,0 +1,92 @@
+[
+  {
+    "id": "evt-001",
+    "title": "Intro to Machine Learning Workshop",
+    "club": "AI & Robotics Club",
+    "start_time": "2026-06-14T10:00:00",
+    "end_time": "2026-06-14T12:00:00",
+    "location": "CS Building Room 204",
+    "description": "Hands-on workshop covering supervised learning basics with Python and scikit-learn."
+  },
+  {
+    "id": "evt-002",
+    "title": "Campus Hackathon Kickoff",
+    "club": "Developer Society",
+    "start_time": "2026-06-15T09:00:00",
+    "end_time": "2026-06-15T10:30:00",
+    "location": "Innovation Hub Auditorium",
+    "description": "Opening ceremony and team formation for the 48-hour campus hackathon."
+  },
+  {
+    "id": "evt-003",
+    "title": "Open Mic Night",
+    "club": "Performing Arts Society",
+    "start_time": "2026-06-15T19:00:00",
+    "end_time": "2026-06-15T22:00:00",
+    "location": "Student Center Plaza",
+    "description": "Students showcase music, poetry, and comedy. Sign-ups at the door."
+  },
+  {
+    "id": "evt-004",
+    "title": "Career Fair — Tech Companies",
+    "club": "Career Services",
+    "start_time": "2026-06-17T11:00:00",
+    "end_time": "2026-06-17T16:00:00",
+    "location": "Sports Complex Main Hall",
+    "description": "Meet recruiters from 30+ tech companies. Bring resumes and dress professionally."
+  },
+  {
+    "id": "evt-005",
+    "title": "Debate Championship Finals",
+    "club": "Debate Club",
+    "start_time": "2026-06-18T14:00:00",
+    "end_time": "2026-06-18T17:00:00",
+    "location": "Humanities Building Room 101",
+    "description": "Final round of the inter-college debate championship. Open to all spectators."
+  },
+  {
+    "id": "evt-006",
+    "title": "Weekend Film Screening: Interstellar",
+    "club": "Cinema Club",
+    "start_time": "2026-06-20T18:00:00",
+    "end_time": "2026-06-20T21:30:00",
+    "location": "Amphitheater Lawn",
+    "description": "Outdoor screening with popcorn and blankets provided. Rain location: Student Center."
+  },
+  {
+    "id": "evt-007",
+    "title": "Intramural Soccer Tournament",
+    "club": "Sports Club",
+    "start_time": "2026-06-21T08:00:00",
+    "end_time": "2026-06-21T18:00:00",
+    "location": "Main Athletic Field",
+    "description": "Single-elimination tournament. Register your team by Friday."
+  },
+  {
+    "id": "evt-008",
+    "title": "Sustainability Panel Discussion",
+    "club": "Green Campus Initiative",
+    "start_time": "2026-06-22T15:00:00",
+    "end_time": "2026-06-22T16:30:00",
+    "location": "Environmental Science Lab 3",
+    "description": "Faculty and students discuss campus carbon-neutral goals and student-led projects."
+  },
+  {
+    "id": "evt-009",
+    "title": "Chess Blitz Tournament",
+    "club": "Chess Club",
+    "start_time": "2026-06-24T17:00:00",
+    "end_time": "2026-06-24T20:00:00",
+    "location": "Library Study Room B",
+    "description": "5-minute blitz rounds. All skill levels welcome. Prizes for top 3."
+  },
+  {
+    "id": "evt-010",
+    "title": "End-of-Semester Cultural Fest",
+    "club": "Cultural Committee",
+    "start_time": "2026-06-27T12:00:00",
+    "end_time": "2026-06-27T22:00:00",
+    "location": "Central Campus Grounds",
+    "description": "Food stalls, dance performances, art exhibitions, and live music celebrating campus diversity."
+  }
+]
