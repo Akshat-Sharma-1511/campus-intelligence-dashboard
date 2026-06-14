@@ -175,21 +175,24 @@ function EmptyState() {
 // ─── ChatInterface (exported) ─────────────────────────────────────────────────
 
 interface ChatInterfaceProps {
-  /** Called on every message change so parent can mirror toolInvocations to ResultPanel */
-  onMessagesChange?: (messages: Message[]) => void;
+  messages: Message[];
+  input: string;
+  handleInputChange: (e: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
+  error: Error | undefined;
 }
 
-export function ChatInterface({ onMessagesChange }: ChatInterfaceProps) {
+export function ChatInterface({
+  messages,
+  input,
+  handleInputChange,
+  handleSubmit,
+  isLoading,
+  error,
+}: ChatInterfaceProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const { messages, input, handleInputChange, handleSubmit, isLoading, error, setInput } =
-    useChat({ api: "/api/chat" });
-
-  // Notify parent of message changes for Results panel wiring
-  useEffect(() => {
-    onMessagesChange?.(messages);
-  }, [messages, onMessagesChange]);
 
   // Auto-scroll to bottom
   useEffect(() => {

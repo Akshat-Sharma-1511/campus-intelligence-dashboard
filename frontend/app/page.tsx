@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { type Message } from "ai/react";
+import { useState } from "react";
+import { useChat, type Message } from "ai/react";
 import { ChatInterface } from "@/components/ChatInterface";
 import { LibraryCard } from "@/components/ResultCards/LibraryCard";
 import { MenuCard } from "@/components/ResultCards/MenuCard";
 import { EventCard } from "@/components/ResultCards/EventCard";
 import { HandbookCard } from "@/components/ResultCards/HandbookCard";
+import { ServerStatusPanel } from "@/components/ServerStatusPanel";
 import { TOOL_SERVER_MAP } from "@/lib/types";
 
 // ─── Result Cards dispatcher ──────────────────────────────────────────────────
@@ -148,12 +149,9 @@ function Header({ isSidebarOpen, onToggle }: { isSidebarOpen: boolean; onToggle:
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
+    useChat({ api: "/api/chat" });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const handleMessagesChange = useCallback((msgs: Message[]) => {
-    setMessages(msgs);
-  }, []);
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-background">
@@ -163,18 +161,28 @@ export default function HomePage() {
       <div className="flex flex-1 overflow-hidden">
         {/* Left — Chat (full on mobile, 60% on desktop) */}
         <main className="flex flex-1 flex-col overflow-hidden md:max-w-none p-3 md:p-4">
-          <ChatInterface onMessagesChange={handleMessagesChange} />
+          <ChatInterface
+            messages={messages}
+            input={input}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+            isLoading={isLoading}
+            error={error}
+          />
         </main>
 
         {/* Right — Results panel */}
         {/* Desktop: always visible sidebar */}
         <aside className="hidden md:flex w-80 lg:w-96 shrink-0 flex-col border-l border-border bg-surface overflow-hidden">
+          <div className="p-3 border-b border-border">
+            <ServerStatusPanel />
+          </div>
           <div className="border-b border-border px-4 py-3">
             <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
               Live Results
             </h2>
           </div>
-          <div className="flex-1 overflow-hidden p-3">
+          <div className="flex-1 overflow-y-auto p-3">
             <ResultsPanel messages={messages} />
           </div>
         </aside>
@@ -202,7 +210,8 @@ export default function HomePage() {
                   </svg>
                 </button>
               </div>
-              <div className="flex-1 overflow-y-auto p-3">
+              <div className="flex-1 overflow-y-auto p-3 space-y-4">
+                <ServerStatusPanel />
                 <ResultsPanel messages={messages} />
               </div>
             </div>

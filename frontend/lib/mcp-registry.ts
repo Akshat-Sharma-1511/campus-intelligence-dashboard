@@ -30,6 +30,12 @@ export function getActiveServers(): MCPServerConfig[] {
       accentKey: "events",
       baseUrl: process.env.EVENTS_SERVER_URL ?? "http://localhost:8003",
     },
+    {
+      name: "handbook-server",
+      label: "Handbook",
+      accentKey: "handbook",
+      baseUrl: process.env.HANDBOOK_SERVER_URL ?? "http://localhost:8004",
+    },
   ];
 }
 
@@ -52,5 +58,11 @@ export const ALL_MCP_SERVERS: MCPServerConfig[] = [
     label: "Events",
     accentKey: "events",
     baseUrl: process.env.EVENTS_SERVER_URL ?? "http://localhost:8003",
+  },
+  {
+    name: "handbook-server",
+    label: "Handbook",
+    accentKey: "handbook",
+    baseUrl: process.env.HANDBOOK_SERVER_URL ?? "http://localhost:8004",
   },
 ];
