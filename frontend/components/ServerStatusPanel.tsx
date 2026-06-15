@@ -1,53 +1,37 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ALL_MCP_SERVERS, type MCPServerConfig } from "@/lib/mcp-registry";
 
-interface ServerStatus extends MCPServerConfig {
+interface ServerStatus {
+  name: string;
+  label: string;
+  accentKey: string;
   status: "online" | "offline" | "checking";
   latency?: number;
+  url?: string;
 }
 
+const INITIAL_STATUSES: ServerStatus[] = [
+  { name: "library-server",   label: "Library",   accentKey: "library",   status: "checking" },
+  { name: "cafeteria-server", label: "Cafeteria", accentKey: "cafeteria", status: "checking" },
+  { name: "events-server",    label: "Events",    accentKey: "events",    status: "checking" },
+  { name: "handbook-server",  label: "Handbook",  accentKey: "handbook",  status: "checking" },
+];
+
 export function ServerStatusPanel() {
-  const [statuses, setStatuses] = useState<ServerStatus[]>(() =>
-    ALL_MCP_SERVERS.map((srv) => ({
-      ...srv,
-      status: "checking",
-    }))
-  );
+  const [statuses, setStatuses] = useState<ServerStatus[]>(INITIAL_STATUSES);
 
   useEffect(() => {
     const checkHealth = async () => {
-      const promises = ALL_MCP_SERVERS.map(async (srv) => {
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 3000);
-        const start = Date.now();
-        try {
-          const res = await fetch(`${srv.baseUrl}/health`, {
-            signal: controller.signal,
-            mode: "cors",
-            headers: { Accept: "application/json" },
-          });
-          clearTimeout(timer);
-          if (res.ok) {
-            const data = await res.json();
-            if (data.status === "ok") {
-              return {
-                ...srv,
-                status: "online" as const,
-                latency: Date.now() - start,
-              };
-            }
-          }
-          return { ...srv, status: "offline" as const };
-        } catch {
-          clearTimeout(timer);
-          return { ...srv, status: "offline" as const };
+      try {
+        const res = await fetch("/api/mcp/status", { cache: "no-store" });
+        if (res.ok) {
+          const data: ServerStatus[] = await res.json();
+          setStatuses(data);
         }
-      });
-
-      const results = await Promise.all(promises);
-      setStatuses(results);
+      } catch {
+        setStatuses((prev) => prev.map((s) => ({ ...s, status: "offline" as const })));
+      }
     };
 
     checkHealth();
@@ -95,7 +79,7 @@ export function ServerStatusPanel() {
                 <div>
                   <div className="font-semibold text-slate-200">{srv.label}</div>
                   <div className="text-[10px] text-slate-500 font-mono">
-                    {srv.baseUrl.replace("http://localhost:", "Port ")}
+                    MCP Server
                   </div>
                 </div>
               </div>
