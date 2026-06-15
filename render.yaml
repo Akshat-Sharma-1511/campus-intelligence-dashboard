@@ -1,0 +1,44 @@
+services:
+  # ── Library Server ──────────────────────────────────────────────
+  - type: web
+    name: campus-library-server
+    runtime: python
+    rootDir: mcp-servers/library-server
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+
+  # ── Cafeteria Server ─────────────────────────────────────────────
+  - type: web
+    name: campus-cafeteria-server
+    runtime: python
+    rootDir: mcp-servers/cafeteria-server
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+
+  # ── Events Server ────────────────────────────────────────────────
+  - type: web
+    name: campus-events-server
+    runtime: python
+    rootDir: mcp-servers/events-server
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
+
+  # ── Handbook Server ──────────────────────────────────────────────
+  - type: web
+    name: campus-handbook-server
+    runtime: python
+    rootDir: mcp-servers/handbook-server
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11"
