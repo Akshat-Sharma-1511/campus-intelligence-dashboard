@@ -1,0 +1,152 @@
+[
+  {
+    "id": "bk-001",
+    "title": "Clean Code",
+    "author": "Robert C. Martin",
+    "isbn": "978-0132350884",
+    "available_copies": 3,
+    "total_copies": 5,
+    "location": "CS Section A-12",
+    "subjects": ["software engineering", "programming"]
+  },
+  {
+    "id": "bk-002",
+    "title": "Introduction to Algorithms",
+    "author": "Thomas H. Cormen",
+    "isbn": "978-0262046305",
+    "available_copies": 1,
+    "total_copies": 4,
+    "location": "CS Section B-03",
+    "subjects": ["algorithms", "computer science"]
+  },
+  {
+    "id": "bk-003",
+    "title": "Design Patterns",
+    "author": "Erich Gamma",
+    "isbn": "978-0201633610",
+    "available_copies": 0,
+    "total_copies": 3,
+    "location": "CS Section A-08",
+    "subjects": ["software engineering", "design patterns"]
+  },
+  {
+    "id": "bk-004",
+    "title": "Structure and Interpretation of Computer Programs",
+    "author": "Harold Abelson",
+    "isbn": "978-0262510875",
+    "available_copies": 2,
+    "total_copies": 2,
+    "location": "CS Section C-01",
+    "subjects": ["programming", "lisp", "computer science"]
+  },
+  {
+    "id": "bk-005",
+    "title": "Calculus: Early Transcendentals",
+    "author": "James Stewart",
+    "isbn": "978-1285741550",
+    "available_copies": 4,
+    "total_copies": 6,
+    "location": "Math Section M-14",
+    "subjects": ["calculus", "mathematics"]
+  },
+  {
+    "id": "bk-006",
+    "title": "Linear Algebra and Its Applications",
+    "author": "Gilbert Strang",
+    "isbn": "978-0030105678",
+    "available_copies": 2,
+    "total_copies": 5,
+    "location": "Math Section M-07",
+    "subjects": ["linear algebra", "mathematics"]
+  },
+  {
+    "id": "bk-007",
+    "title": "Discrete Mathematics and Its Applications",
+    "author": "Kenneth Rosen",
+    "isbn": "978-1259676512",
+    "available_copies": 0,
+    "total_copies": 3,
+    "location": "Math Section M-22",
+    "subjects": ["discrete mathematics", "mathematics"]
+  },
+  {
+    "id": "bk-008",
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "isbn": "978-0141439518",
+    "available_copies": 5,
+    "total_copies": 5,
+    "location": "Literature Section L-02",
+    "subjects": ["literature", "classic fiction"]
+  },
+  {
+    "id": "bk-009",
+    "title": "1984",
+    "author": "George Orwell",
+    "isbn": "978-0451524935",
+    "available_copies": 1,
+    "total_copies": 4,
+    "location": "Literature Section L-09",
+    "subjects": ["literature", "dystopian fiction"]
+  },
+  {
+    "id": "bk-010",
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "isbn": "978-0743273565",
+    "available_copies": 3,
+    "total_copies": 3,
+    "location": "Literature Section L-05",
+    "subjects": ["literature", "american fiction"]
+  },
+  {
+    "id": "bk-011",
+    "title": "Database System Concepts",
+    "author": "Abraham Silberschatz",
+    "isbn": "978-0078022159",
+    "available_copies": 2,
+    "total_copies": 4,
+    "location": "CS Section B-11",
+    "subjects": ["databases", "computer science"]
+  },
+  {
+    "id": "bk-012",
+    "title": "Operating System Concepts",
+    "author": "Abraham Silberschatz",
+    "isbn": "978-1118063330",
+    "available_copies": 0,
+    "total_copies": 2,
+    "location": "CS Section B-15",
+    "subjects": ["operating systems", "computer science"]
+  },
+  {
+    "id": "bk-013",
+    "title": "Probability and Statistics for Engineers",
+    "author": "Jay Devore",
+    "isbn": "978-0538733526",
+    "available_copies": 3,
+    "total_copies": 5,
+    "location": "Math Section M-18",
+    "subjects": ["statistics", "probability", "mathematics"]
+  },
+  {
+    "id": "bk-014",
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "isbn": "978-0061120084",
+    "available_copies": 4,
+    "total_copies": 4,
+    "location": "Literature Section L-11",
+    "subjects": ["literature", "american fiction"]
+  },
+  {
+    "id": "bk-015",
+    "title": "Artificial Intelligence: A Modern Approach",
+    "author": "Stuart Russell",
+    "isbn": "978-0134610993",
+    "available_copies": 1,
+    "total_copies": 3,
+    "location": "CS Section A-20",
+    "subjects": ["artificial intelligence", "computer science"]
+  }
+]
