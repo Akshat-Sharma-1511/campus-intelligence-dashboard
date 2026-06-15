@@ -20,7 +20,7 @@ The **Unified Campus Intelligence Dashboard** is a state-of-the-art web applicat
 
 ## 🎬 Live Demo
 
-> **Demo Video:** [DEMO_VIDEO_LINK_HERE]
+> **Demo Video:** [▶️ Watch Demo](https://drive.google.com/file/d/1XFpo1p_AwDxWNVKavHgNXxfcXrKg0qKz/view?usp=sharing)
 
 > **Deployed App:** [campus-intelligence-dashboard-deplo-ten.vercel.app](https://campus-intelligence-dashboard-deplo-ten.vercel.app)
 
