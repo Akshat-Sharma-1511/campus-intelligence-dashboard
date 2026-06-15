@@ -22,7 +22,7 @@ The **Unified Campus Intelligence Dashboard** is a state-of-the-art web applicat
 
 > **Demo Video:** [DEMO_VIDEO_LINK_HERE]
 
-> **Deployed App:** [DEPLOYED_APP_URL_HERE]
+> **Deployed App:** [campus-intelligence-dashboard-deplo-ten.vercel.app](https://campus-intelligence-dashboard-deplo-ten.vercel.app)
 
 ---
 
@@ -366,22 +366,3 @@ curl -X POST http://localhost:8004/invoke/search_handbook \
 | **6** | Two messages sent back-to-back rapidly | All relevant | ✅ Chat interface disables text inputs during stream to avoid race conditions. |
 | **7** | *"What happens if I submit an assignment late?"* | Handbook only | ✅ `search_handbook` executed, rendering matching handbook policies. |
 
----
-
-## 🎬 Demo Video
-
-**[▶️ Watch the Demo Video](DEMO_VIDEO_LINK_HERE)**
-
-The demo covers:
-- Architecture walkthrough (independent MCP servers, no shared database)
-- Live `ServerStatusPanel` with server kill/restart demonstration
-- Single-server queries (library, cafeteria, events, handbook)
-- Multi-server parallel routing
-- Ultimate 4-server query demonstration
-- Graceful degradation when a server goes offline
-- Brief code walkthrough of the orchestrator and MCP registry
-
----
-
-## 📄 License
-MIT License — see LICENSE file for details.
