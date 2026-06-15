@@ -1,4 +1,10 @@
-/** MCP server registry — Phase 3: all three servers active. */
+/** MCP server registry — Unified server mode.
+ *
+ *  In production a single "unified-server" hosts all 4 campus services
+ *  under namespaced routes (/library/*, /cafeteria/*, /events/*, /handbook/*).
+ *  The UNIFIED_SERVER_URL env var points to that single Render deployment.
+ *  Falls back to individual localhost ports for local development.
+ */
 
 export interface MCPServerConfig {
   name: string;
@@ -9,6 +15,8 @@ export interface MCPServerConfig {
   accentKey: "library" | "cafeteria" | "events" | "handbook";
 }
 
+const UNIFIED = process.env.UNIFIED_SERVER_URL;
+
 /** Active servers for the orchestrator. */
 export function getActiveServers(): MCPServerConfig[] {
   return [
@@ -16,53 +24,69 @@ export function getActiveServers(): MCPServerConfig[] {
       name: "library-server",
       label: "Library",
       accentKey: "library",
-      baseUrl: process.env.LIBRARY_SERVER_URL ?? "http://localhost:8001",
+      baseUrl: UNIFIED
+        ? `${UNIFIED}/library`
+        : (process.env.LIBRARY_SERVER_URL ?? "http://localhost:8001"),
     },
     {
       name: "cafeteria-server",
       label: "Cafeteria",
       accentKey: "cafeteria",
-      baseUrl: process.env.CAFETERIA_SERVER_URL ?? "http://localhost:8002",
+      baseUrl: UNIFIED
+        ? `${UNIFIED}/cafeteria`
+        : (process.env.CAFETERIA_SERVER_URL ?? "http://localhost:8002"),
     },
     {
       name: "events-server",
       label: "Events",
       accentKey: "events",
-      baseUrl: process.env.EVENTS_SERVER_URL ?? "http://localhost:8003",
+      baseUrl: UNIFIED
+        ? `${UNIFIED}/events`
+        : (process.env.EVENTS_SERVER_URL ?? "http://localhost:8003"),
     },
     {
       name: "handbook-server",
       label: "Handbook",
       accentKey: "handbook",
-      baseUrl: process.env.HANDBOOK_SERVER_URL ?? "http://localhost:8004",
+      baseUrl: UNIFIED
+        ? `${UNIFIED}/handbook`
+        : (process.env.HANDBOOK_SERVER_URL ?? "http://localhost:8004"),
     },
   ];
 }
 
-/** All server configs (for ServerStatusPanel in Phase 4). */
+/** All server configs (for ServerStatusPanel). */
 export const ALL_MCP_SERVERS: MCPServerConfig[] = [
   {
     name: "library-server",
     label: "Library",
     accentKey: "library",
-    baseUrl: process.env.LIBRARY_SERVER_URL ?? "http://localhost:8001",
+    baseUrl: UNIFIED
+      ? `${UNIFIED}/library`
+      : (process.env.LIBRARY_SERVER_URL ?? "http://localhost:8001"),
   },
   {
     name: "cafeteria-server",
     label: "Cafeteria",
     accentKey: "cafeteria",
-    baseUrl: process.env.CAFETERIA_SERVER_URL ?? "http://localhost:8002",
+    baseUrl: UNIFIED
+      ? `${UNIFIED}/cafeteria`
+      : (process.env.CAFETERIA_SERVER_URL ?? "http://localhost:8002"),
   },
   {
     name: "events-server",
     label: "Events",
     accentKey: "events",
-    baseUrl: process.env.EVENTS_SERVER_URL ?? "http://localhost:8003",
+    baseUrl: UNIFIED
+      ? `${UNIFIED}/events`
+      : (process.env.EVENTS_SERVER_URL ?? "http://localhost:8003"),
   },
   {
     name: "handbook-server",
     label: "Handbook",
     accentKey: "handbook",
-    baseUrl: process.env.HANDBOOK_SERVER_URL ?? "http://localhost:8004",
+    baseUrl: UNIFIED
+      ? `${UNIFIED}/handbook`
+      : (process.env.HANDBOOK_SERVER_URL ?? "http://localhost:8004"),
   },
 ];
