@@ -1,13 +1,13 @@
 import { groq } from "@ai-sdk/groq";
 import { jsonSchema, streamText, tool, type ToolSet } from "ai";
-import { fetchAllTools, invokeTool } from "@/lib/tool-router";
+import { ALL_TOOLS, executeTool } from "@/lib/tool-registry";
 import type { MCPToolDefinition } from "@/lib/types";
 
 export const maxDuration = 60;
 
 const SYSTEM_PROMPT = `You are the AI assistant for a university Campus Intelligence Dashboard.
 You have access to tools from independent campus systems: library catalog,
-cafeteria menu, club events calendar, and (if available) the academic handbook.
+cafeteria menu, club events calendar, and the academic handbook.
 
 Rules:
 - For any question that could be answered by a tool, call the relevant tool(s)
@@ -24,30 +24,22 @@ Rules:
 - Keep responses concise and conversational. Do not describe your internal
   tool-calling process to the user.`;
 
-function buildAiTools(
-  mcpTools: MCPToolDefinition[],
-  toolOwners: Awaited<ReturnType<typeof fetchAllTools>>["toolOwners"]
-) {
+function buildAiTools(mcpTools: MCPToolDefinition[]): ToolSet {
   const tools: ToolSet = {};
-
   for (const toolDef of mcpTools) {
     tools[toolDef.name] = tool({
       description: toolDef.description,
       parameters: jsonSchema(toolDef.input_schema),
       execute: async (input) => {
-        const { result, error } = await invokeTool(
+        const { result, error } = executeTool(
           toolDef.name,
-          input as Record<string, unknown>,
-          toolOwners
+          input as Record<string, unknown>
         );
-        if (error) {
-          return { error, result: null };
-        }
+        if (error) return { error, result: null };
         return result;
       },
     });
   }
-
   return tools;
 }
 
@@ -62,24 +54,11 @@ export async function POST(req: Request) {
       );
     }
 
-    const { tools: mcpTools, toolOwners, unavailableServers } =
-      await fetchAllTools();
-
-    let systemPrompt = SYSTEM_PROMPT;
-    if (unavailableServers.length > 0) {
-      systemPrompt += `\n\nNote: The following campus systems are currently unavailable: ${unavailableServers.join(", ")}. If the user asks about them, explain you cannot reach those systems right now.`;
-    }
-
-    if (mcpTools.length === 0) {
-      systemPrompt +=
-        "\n\nWarning: No campus tools are available right now. Tell the user the library system appears to be offline.";
-    }
-
-    const aiTools = buildAiTools(mcpTools, toolOwners);
+    const aiTools = buildAiTools(ALL_TOOLS);
 
     const result = streamText({
       model: groq("llama-3.3-70b-versatile"),
-      system: systemPrompt,
+      system: SYSTEM_PROMPT,
       messages,
       tools: aiTools,
       maxSteps: 5,
